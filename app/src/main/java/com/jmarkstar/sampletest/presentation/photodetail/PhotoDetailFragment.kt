@@ -1,4 +1,4 @@
-package com.jmarkstar.sampletest.ui.users
+package com.jmarkstar.sampletest.presentation.photodetail
 
 
 import android.os.Bundle
@@ -12,14 +12,14 @@ import com.jmarkstar.sampletest.R
 /**
  * A simple [Fragment] subclass.
  */
-class UsersFragment : Fragment() {
+class PhotoDetailFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_users, container, false)
+        return inflater.inflate(R.layout.fragment_photo_detail, container, false)
     }
 
 

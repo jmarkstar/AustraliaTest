@@ -1,4 +1,4 @@
-package com.jmarkstar.sampletest.models
+package com.jmarkstar.sampletest.repository
 
 sealed class Result<out T : Any> {
     data class Success<out T : Any>(val value: T) : Result<T>()

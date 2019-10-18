@@ -1,6 +1,5 @@
 package com.jmarkstar.sampletest.repository
 
-import com.jmarkstar.sampletest.models.Result
 import com.jmarkstar.sampletest.models.User
 
 interface UserRepository {

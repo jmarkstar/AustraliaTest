@@ -1,8 +1,6 @@
 package com.jmarkstar.sampletest.repository
 
-import com.jmarkstar.sampletest.models.FailureReason
 import com.jmarkstar.sampletest.models.Photo
-import com.jmarkstar.sampletest.models.Result
 import com.jmarkstar.sampletest.models.User
 import com.jmarkstar.sampletest.repository.local.daos.PhotoDao
 import com.jmarkstar.sampletest.repository.network.PhotoService

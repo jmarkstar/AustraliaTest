@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/usersFragment"
-        android:name="com.jmarkstar.sampletest.ui.users.UsersFragment"
+        android:name="com.jmarkstar.sampletest.presentation.users.UsersFragment"
         android:label="fragment_users"
         tools:layout="@layout/fragment_users" >
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/photosFragment"
-        android:name="com.jmarkstar.sampletest.ui.photos.PhotosFragment"
+        android:name="com.jmarkstar.sampletest.presentation.photos.PhotosFragment"
         android:label="fragment_photos"
         tools:layout="@layout/fragment_photos" >
         <action
@@ -27,7 +27,7 @@
 
     <fragment
         android:id="@+id/photoDetailFragment"
-        android:name="com.jmarkstar.sampletest.ui.photodetail.PhotoDetailFragment"
+        android:name="com.jmarkstar.sampletest.presentation.photodetail.PhotoDetailFragment"
         android:label="fragment_photo_detail"
         tools:layout="@layout/fragment_photo_detail" />
 </navigation>

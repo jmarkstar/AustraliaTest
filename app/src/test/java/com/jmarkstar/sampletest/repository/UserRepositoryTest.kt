@@ -9,8 +9,6 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*
 import retrofit2.Response
-import com.jmarkstar.sampletest.models.FailureReason
-import com.jmarkstar.sampletest.models.Result
 import com.jmarkstar.sampletest.models.User
 import com.jmarkstar.sampletest.userIds
 import okhttp3.ResponseBody

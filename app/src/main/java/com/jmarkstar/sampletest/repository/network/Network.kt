@@ -1,10 +1,10 @@
 package com.jmarkstar.sampletest.repository.network
 
-import com.jmarkstar.sampletest.models.FailureReason
+import com.jmarkstar.sampletest.repository.FailureReason
 import java.lang.Exception
 import java.net.UnknownHostException
 import java.net.UnknownServiceException
-import com.jmarkstar.sampletest.models.Result
+import com.jmarkstar.sampletest.repository.Result
 
 suspend fun <T: Any>processNetworkResult(resultCode: Int, sucessResult: suspend () -> Result<T>): Result<T> {
     return when(resultCode){

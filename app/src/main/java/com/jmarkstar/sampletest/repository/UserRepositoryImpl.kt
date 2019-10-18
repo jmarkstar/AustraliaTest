@@ -1,7 +1,5 @@
 package com.jmarkstar.sampletest.repository
 
-import com.jmarkstar.sampletest.models.FailureReason
-import com.jmarkstar.sampletest.models.Result
 import com.jmarkstar.sampletest.models.User
 import com.jmarkstar.sampletest.repository.local.daos.UserDao
 import com.jmarkstar.sampletest.repository.network.UserService

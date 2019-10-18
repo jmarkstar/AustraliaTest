@@ -1,4 +1,4 @@
-package com.jmarkstar.sampletest.ui
+package com.jmarkstar.sampletest.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

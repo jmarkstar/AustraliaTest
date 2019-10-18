@@ -11,9 +11,7 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*
 import retrofit2.Response
-import com.jmarkstar.sampletest.models.FailureReason
 import com.jmarkstar.sampletest.models.Photo
-import com.jmarkstar.sampletest.models.Result
 import okhttp3.ResponseBody
 import java.net.UnknownHostException
 

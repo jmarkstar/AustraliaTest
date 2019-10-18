@@ -2,6 +2,7 @@ package com.jmarkstar.sampletest.di
 
 import androidx.room.Room
 import com.jmarkstar.sampletest.BuildConfig
+import com.jmarkstar.sampletest.presentation.users.UsersViewModel
 import com.jmarkstar.sampletest.repository.PhotoRepository
 import com.jmarkstar.sampletest.repository.PhotoRepositoryImpl
 import com.jmarkstar.sampletest.repository.UserRepository
@@ -13,6 +14,7 @@ import com.squareup.moshi.Moshi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -28,6 +30,7 @@ val constantModule: Module = module {
 
 val viewModelModule: Module = module {
 
+    viewModel { UsersViewModel( userRepository = get()) }
 }
 
 /** Repository Module */

@@ -15,4 +15,6 @@
     <string name="user_id_label">ID:</string>
     <string name="user_email_label">Email</string>
     <string name="user_phone_label">Phone:</string>
+
+    <string name="users_empty_message">We couldnt found Users</string>
 </resources>

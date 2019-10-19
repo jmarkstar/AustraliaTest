@@ -8,6 +8,7 @@ def BASE_URL = "BASE_URL"
 
 android {
     compileSdkVersion 28
+
     defaultConfig {
         applicationId "com.jmarkstar.sampletest"
         minSdkVersion 21
@@ -16,6 +17,11 @@ android {
         versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    dataBinding {
+        enabled = true
+    }
+
     buildTypes {
         release {
             buildConfigField "String", BASE_URL, CONFIG("api.server.baseurl.production")
@@ -29,6 +35,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    androidExtensions {
+        experimental = true
     }
 }
 

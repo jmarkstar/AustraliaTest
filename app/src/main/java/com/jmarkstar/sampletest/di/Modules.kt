@@ -2,6 +2,7 @@ package com.jmarkstar.sampletest.di
 
 import androidx.room.Room
 import com.jmarkstar.sampletest.BuildConfig
+import com.jmarkstar.sampletest.presentation.photos.PhotosViewModel
 import com.jmarkstar.sampletest.presentation.users.UsersViewModel
 import com.jmarkstar.sampletest.repository.PhotoRepository
 import com.jmarkstar.sampletest.repository.PhotoRepositoryImpl
@@ -28,9 +29,12 @@ val constantModule: Module = module {
     single(named("baseUrl")) { BuildConfig.BASE_URL }
 }
 
+/** ViewModel Module */
+
 val viewModelModule: Module = module {
 
     viewModel { UsersViewModel( userRepository = get()) }
+    viewModel { PhotosViewModel( photoRepository = get()) }
 }
 
 /** Repository Module */

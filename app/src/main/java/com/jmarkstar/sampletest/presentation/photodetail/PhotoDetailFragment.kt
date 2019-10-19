@@ -2,26 +2,24 @@ package com.jmarkstar.sampletest.presentation.photodetail
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.jmarkstar.sampletest.databinding.FragmentPhotoDetailBinding
+import com.jmarkstar.sampletest.presentation.base.BaseFragment
+import com.jmarkstar.sampletest.presentation.photos.PhotosViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-import com.jmarkstar.sampletest.R
+class PhotoDetailFragment : BaseFragment() {
 
-/**
- * A simple [Fragment] subclass.
- */
-class PhotoDetailFragment : Fragment() {
+    private lateinit var binding: FragmentPhotoDetailBinding
+
+    private val photosViewModel: PhotosViewModel by sharedViewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_photo_detail, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-
+        binding =  FragmentPhotoDetailBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
+        binding.viewModel = photosViewModel
+        return binding.root
     }
 }

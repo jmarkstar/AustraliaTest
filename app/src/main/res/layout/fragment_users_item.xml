@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable name="listener" type="com.jmarkstar.sampletest.presentation.users.UserAdapter.OnUserItemClickListener" />
         <variable name="user" type="com.jmarkstar.sampletest.models.User" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clUserItem"
+        android:onClick="@{() -> listener.onUserItemClick(user)}"
         android:orientation="vertical"
         android:layout_marginTop="12dp"
         android:layout_marginStart="12dp"

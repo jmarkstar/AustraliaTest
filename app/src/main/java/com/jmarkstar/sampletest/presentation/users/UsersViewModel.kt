@@ -1,12 +1,8 @@
 package com.jmarkstar.sampletest.presentation.users
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.jmarkstar.sampletest.extensions.setLoading
+import androidx.lifecycle.*
 import com.jmarkstar.sampletest.models.User
-import com.jmarkstar.sampletest.presentation.Resource
+import com.jmarkstar.sampletest.repository.FailureReason
 import com.jmarkstar.sampletest.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,37 +11,47 @@ import com.jmarkstar.sampletest.repository.Result
 
 class UsersViewModel constructor(private val userRepository: UserRepository): ViewModel() {
 
-    var users = MutableLiveData<Resource<List<User>>>()
+    private var _users = MutableLiveData<List<User>>()
+    private var _isLoading = MutableLiveData<Boolean>()
+    private var _error = MutableLiveData<FailureReason>()
+
+    val users: LiveData<List<User>> = _users
+    val isLoading: LiveData<Boolean> = _isLoading
+    val isUsersEmpty: LiveData<Boolean> = Transformations.map(_users) { it.isEmpty() }
+    val error: LiveData<FailureReason> = _error
 
     var selectedUser = MutableLiveData<User>()
 
     init {
-        users.value = Resource.Empty
         getUsers()
     }
 
-    fun getUsers(refresh: Boolean = true) = viewModelScope.launch {
-        users.setLoading()
+    private fun getUsers(refresh: Boolean = false) = viewModelScope.launch {
 
-        val usersResult = withContext(Dispatchers.Default) {
+        _isLoading.value = true
+
+        withContext(Dispatchers.Default) {
 
             when( val result = userRepository.getUsers(refresh)) {
 
                 is Result.Success -> {
-                    Log.v("UsersViewModel","getUsers size ${result.value.size}")
-                    if(result.value.isNotEmpty()) {
-                        Resource.Success(result.value)
-                    } else {
-                        Resource.Empty
-                    }
+                    setUsers(result.value)
                 }
                 is Result.Failure -> {
-                    Resource.Error(result.reason)
+                    setError(result.reason)
                 }
             }
         }
 
-        users.value = usersResult
+        _isLoading.value = false
+    }
+
+    private suspend fun setUsers(items: List<User>) = withContext(Dispatchers.Main){
+        _users.value = items
+    }
+
+    private suspend fun setError(reason: FailureReason) = withContext(Dispatchers.Main){
+        _error.value = reason
     }
 
     fun select(user: User){

@@ -5,21 +5,22 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jmarkstar.sampletest.databinding.FragmentUsersItemBinding
 import com.jmarkstar.sampletest.models.User
+import com.jmarkstar.sampletest.presentation.base.BindableAdapter
 
-class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>(){
+class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>(),
+    BindableAdapter<User> {
 
-    var items = ArrayList<User>()
+    var items = emptyList<User>()
+    var onItemClick: ((User) -> (Unit))? = null
 
-    var onClickItem: ( (User) -> Unit)? = null
-
-    fun addItems(newItems: List<User>){
-        this.items.clear()
-        this.items.addAll(newItems)
+    override fun setData(items: List<User>) {
+        this.items = items
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val binding = FragmentUsersItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return UserViewHolder(binding)
+        return UserViewHolder(binding, onItemClick)
     }
 
     override fun getItemCount(): Int {
@@ -27,20 +28,26 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>(){
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
-        holder.bind()
+        holder.bind(items[position])
     }
 
-    inner class UserViewHolder(private val binding: FragmentUsersItemBinding): RecyclerView.ViewHolder(binding.root) {
+    class UserViewHolder(private val binding: FragmentUsersItemBinding, onItemClick: ((User) -> (Unit))?): RecyclerView.ViewHolder(binding.root) {
 
         init {
-            binding.clUserItem.setOnClickListener {
-                onClickItem?.invoke(items[adapterPosition])
+            binding.listener = object: OnUserItemClickListener{
+                override fun onUserItemClick(user: User) {
+                    onItemClick?.invoke(user)
+                }
             }
         }
 
-        fun bind(){
-            binding.user = items[adapterPosition]
+        fun bind(user: User){
+            binding.user = user
             binding.executePendingBindings()
         }
+    }
+
+    interface OnUserItemClickListener {
+        fun onUserItemClick(user: User)
     }
 }

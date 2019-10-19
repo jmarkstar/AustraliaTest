@@ -4,10 +4,8 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jmarkstar.sampletest.extensions.setLoading
 import com.jmarkstar.sampletest.models.Photo
 import com.jmarkstar.sampletest.models.User
-import com.jmarkstar.sampletest.presentation.Resource
 import com.jmarkstar.sampletest.repository.PhotoRepository
 import com.jmarkstar.sampletest.repository.Result
 import kotlinx.coroutines.Dispatchers
@@ -16,16 +14,13 @@ import kotlinx.coroutines.withContext
 
 class PhotosViewModel constructor(private val photoRepository: PhotoRepository): ViewModel() {
 
-    var photos = MutableLiveData<Resource<List<Photo>>>()
+    var photos = MutableLiveData<List<Photo>>()
 
     var selectedPhoto = MutableLiveData<Photo>()
 
-    init {
-        photos.value = Resource.Empty
-    }
 
     fun getPhotos(selectedUser: User, refresh: Boolean = true) = viewModelScope.launch {
-        photos.setLoading()
+        /*photos.setLoading()
 
         val usersResult = withContext(Dispatchers.Default) {
 
@@ -45,7 +40,7 @@ class PhotosViewModel constructor(private val photoRepository: PhotoRepository):
             }
         }
 
-        photos.value = usersResult
+        photos.value = usersResult*/
     }
 
     fun select(photo: Photo){

@@ -12,11 +12,11 @@ val users = arrayOf(user1, user2, user3, user4).toList()
 val userIds = arrayOf(1L,2L,3L,4L).toList()
 val incompleteUserIds = arrayOf(1L,2L,3L).toList()
 
-//photos user 1
+//photos user.json 1
 val photo1 = Photo(1, 1, "photo1", "link", "link")
 val photo2 = Photo(2, 1, "photo1", "link", "link")
 
-//photos user 2
+//photos user.json 2
 val photo3 = Photo(3, 2, "photo1", "link", "link")
 val photo4 = Photo(4, 2, "photo1", "link", "link")
 

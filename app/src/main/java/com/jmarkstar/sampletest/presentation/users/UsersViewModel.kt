@@ -17,6 +17,8 @@ class UsersViewModel constructor(private val userRepository: UserRepository): Vi
 
     var users = MutableLiveData<Resource<List<User>>>()
 
+    var selectedUser = MutableLiveData<User>()
+
     init {
         users.value = Resource.Empty
         getUsers()
@@ -44,5 +46,9 @@ class UsersViewModel constructor(private val userRepository: UserRepository): Vi
         }
 
         users.value = usersResult
+    }
+
+    fun select(user: User){
+        selectedUser.value = user
     }
 }

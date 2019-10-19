@@ -4,9 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable
-            name="viewModel"
-            type="com.jmarkstar.sampletest.presentation.users.UsersViewModel" />
+        <variable name="viewModel" type="com.jmarkstar.sampletest.presentation.users.UsersViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -14,13 +14,13 @@ class UsersViewModel constructor(private val userRepository: UserRepository): Vi
     private var _users = MutableLiveData<List<User>>()
     private var _isLoading = MutableLiveData<Boolean>()
     private var _error = MutableLiveData<FailureReason>()
+    private var _selectedUser = MutableLiveData<User>()
 
     val users: LiveData<List<User>> = _users
     val isLoading: LiveData<Boolean> = _isLoading
     val isUsersEmpty: LiveData<Boolean> = Transformations.map(_users) { it.isEmpty() }
     val error: LiveData<FailureReason> = _error
-
-    var selectedUser = MutableLiveData<User>()
+    val selectedUser: LiveData<User> = _selectedUser
 
     init {
         getUsers()
@@ -55,6 +55,6 @@ class UsersViewModel constructor(private val userRepository: UserRepository): Vi
     }
 
     fun select(user: User){
-        selectedUser.value = user
+        _selectedUser.value = user
     }
 }

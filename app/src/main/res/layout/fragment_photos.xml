@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable name="viewModel" type="com.jmarkstar.sampletest.presentation.photos.PhotosViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,6 +14,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPhotos"
+            app:data="@{viewModel.photos}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -26,7 +27,7 @@
 
         <ProgressBar
             android:id="@+id/pgUserLoader"
-            android:visibility="gone"
+            android:visibility="@{viewModel.isLoading}"
             android:layout_width="50dp"
             android:layout_height="50dp"
             app:layout_constraintTop_toTopOf="parent"
@@ -36,6 +37,8 @@
 
         <TextView
             android:id="@+id/tvErrorMessage"
+            android:visibility="@{viewModel.isPhotosEmpty()}"
+            android:text="@string/photos_empty_message"
             android:textSize="16sp"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"

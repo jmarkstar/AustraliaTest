@@ -4,10 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable name="listener" type="com.jmarkstar.sampletest.presentation.photos.PhotoAdapter.OnPhotoItemClickListener" />
+        <variable name="photo" type="com.jmarkstar.sampletest.models.Photo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:onClick="@{() -> listener.onPhotoItemClick(photo)}"
         android:orientation="vertical"
         android:layout_marginTop="12dp"
         android:layout_marginStart="12dp"
@@ -27,8 +29,11 @@
             android:id="@+id/ivPhoto"
             tools:background="@tools:sample/avatars"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_margin="8dp"
+            
+            app:imageUrl="@{photo.thumbnailUrl}"
+            app:placeholder="@{@drawable/ic_image_black}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/gdPhoto"
@@ -38,6 +43,7 @@
             android:id="@+id/tvPhotoLabel"
             android:gravity="center_horizontal"
             android:textSize="16sp"
+            android:text="@{photo.title}"
             tools:text="@sample/photo.json/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

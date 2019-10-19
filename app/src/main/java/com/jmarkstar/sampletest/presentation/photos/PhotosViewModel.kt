@@ -1,11 +1,9 @@
 package com.jmarkstar.sampletest.presentation.photos
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.jmarkstar.sampletest.models.Photo
 import com.jmarkstar.sampletest.models.User
+import com.jmarkstar.sampletest.repository.FailureReason
 import com.jmarkstar.sampletest.repository.PhotoRepository
 import com.jmarkstar.sampletest.repository.Result
 import kotlinx.coroutines.Dispatchers
@@ -14,36 +12,47 @@ import kotlinx.coroutines.withContext
 
 class PhotosViewModel constructor(private val photoRepository: PhotoRepository): ViewModel() {
 
-    var photos = MutableLiveData<List<Photo>>()
+    private var _photos = MutableLiveData<List<Photo>>()
+    private var _isLoading = MutableLiveData<Boolean>()
+    private var _error = MutableLiveData<FailureReason>()
+    private var _selectedPhoto = MutableLiveData<Photo>()
 
-    var selectedPhoto = MutableLiveData<Photo>()
+    val photos: LiveData<List<Photo>> = _photos
+    val isLoading: LiveData<Boolean> = _isLoading
+    val isPhotosEmpty: LiveData<Boolean> = Transformations.map(_photos) { it.isEmpty() }
+    val error: LiveData<FailureReason> = _error
 
+    val selectedPhoto: LiveData<Photo> = _selectedPhoto
 
-    fun getPhotos(selectedUser: User, refresh: Boolean = true) = viewModelScope.launch {
-        /*photos.setLoading()
+    fun getPhotos(selectedUser: User, refresh: Boolean = false) = viewModelScope.launch {
 
-        val usersResult = withContext(Dispatchers.Default) {
+        _isLoading.value = true
+
+        withContext(Dispatchers.Default) {
 
             when( val result = photoRepository.getUserPhotos(selectedUser, refresh)) {
 
                 is Result.Success -> {
-                    Log.v("PhotosViewModel","getPhotos size ${result.value.size}")
-                    if(result.value.isNotEmpty()) {
-                        Resource.Success(result.value)
-                    } else {
-                        Resource.Empty
-                    }
+                    setPhotos(result.value)
                 }
                 is Result.Failure -> {
-                    Resource.Error(result.reason)
+                    setError(result.reason)
                 }
             }
         }
 
-        photos.value = usersResult*/
+        _isLoading.value = false
+    }
+
+    private suspend fun setPhotos(items: List<Photo>) = withContext(Dispatchers.Main){
+        _photos.value = items
+    }
+
+    private suspend fun setError(reason: FailureReason) = withContext(Dispatchers.Main){
+        _error.value = reason
     }
 
     fun select(photo: Photo){
-        selectedPhoto.value = photo
+        _selectedPhoto.value = photo
     }
 }

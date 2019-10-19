@@ -9,14 +9,14 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.jmarkstar.sampletest.R
 import com.jmarkstar.sampletest.presentation.base.BaseFragment
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.jmarkstar.sampletest.databinding.FragmentUsersBinding
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class UsersFragment : BaseFragment() {
 
     private lateinit var binding: FragmentUsersBinding
 
-    private val usersViewModel: UsersViewModel by viewModel()
+    private val usersViewModel: UsersViewModel by sharedViewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding =  FragmentUsersBinding.inflate(inflater, container, false)

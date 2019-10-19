@@ -3,35 +3,53 @@ package com.jmarkstar.sampletest.presentation.photos
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.jmarkstar.sampletest.R
+import com.jmarkstar.sampletest.databinding.FragmentPhotosBinding
+import com.jmarkstar.sampletest.presentation.base.BaseFragment
 import com.jmarkstar.sampletest.presentation.users.UsersViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class PhotosFragment : Fragment() {
+class PhotosFragment : BaseFragment() {
 
-    private val photosFragment: PhotosViewModel by viewModel()
+    private lateinit var binding: FragmentPhotosBinding
+
+    private val usersViewModel: UsersViewModel by sharedViewModel()
+
+    private val photosViewModel: PhotosViewModel by sharedViewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_photos, container, false)
+        binding =  FragmentPhotosBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
+
+        val adapter = PhotoAdapter()
+        adapter.onItemClick = {photo ->
+
+            photosViewModel.select(photo)
+            findNavController().navigate(R.id.action_photosFragment_to_photoDetailFragment)
+        }
+
+        binding.rvPhotos.adapter = adapter
+
+        binding.viewModel = photosViewModel
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*usersViewModel.selectedUser.observe(this, Observer { user ->
+        photosViewModel.error.observe(this, Observer {
+            renderMessage(it)
+        })
 
+        usersViewModel.selectedUser.observe(this, Observer { user ->
             Log.v("PhotosFragment","user: ${user.name}")
-
-            photosFragment.photos.observe(this@PhotosFragment, Observer {photos ->
-
-
-            })
-        })*/
+            photosViewModel.getPhotos(user)
+        })
     }
-
 }

@@ -1,6 +1,9 @@
 package com.jmarkstar.sampletest.presentation
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.jmarkstar.sampletest.models.User
+import com.jmarkstar.sampletest.presentation.common.CoroutineContextProvider
+import com.jmarkstar.sampletest.presentation.common.TestCoroutineContextProvider
 import com.jmarkstar.sampletest.presentation.users.UsersViewModel
 import com.jmarkstar.sampletest.repository.FailureReason
 import com.jmarkstar.sampletest.repository.UserRepository
@@ -11,16 +14,35 @@ import com.jmarkstar.sampletest.user1
 import com.jraska.livedata.test
 import kotlinx.coroutines.*
 import org.junit.*
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.dsl.module
+import org.koin.test.KoinTest
+import org.koin.test.inject
 
 @ExperimentalCoroutinesApi
-class UsersViewModelTest: BaseViewModelTest() {
+class UsersViewModelTest: KoinTest {
+
+    @get:Rule val rule = InstantTaskExecutorRule()
 
     private val usersRepository: UserRepository = mock(UserRepository::class.java)
 
-    private lateinit var usersViewModel: UsersViewModel
+    private val usersViewModel: UsersViewModel by inject()
 
     @Before fun before() {
-        usersViewModel = UsersViewModel(usersRepository, testCoroutineConextProvider)
+
+        startKoin {
+            modules(listOf(module {
+                single { usersRepository }
+                single<CoroutineContextProvider> { TestCoroutineContextProvider() }
+                viewModel { UsersViewModel( userRepository = get(), coroutineContextProvider = get()) }
+            }))
+        }
+    }
+
+    @After fun after(){
+        stopKoin()
     }
 
     @Test fun `get users test success`() {

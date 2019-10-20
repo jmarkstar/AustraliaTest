@@ -47,6 +47,12 @@ val repositoryModule: Module = module {
     single<PhotoRepository> { PhotoRepositoryImpl(photoService = get(), photoDao = get()) }
 }
 
+val serviceModule: Module = module {
+
+    single { get<Retrofit>().create(UserService::class.java) }
+    single { get<Retrofit>().create(PhotoService::class.java) }
+}
+
 /** Database Module */
 
 val daoModule: Module = module {
@@ -66,11 +72,6 @@ val databaseModule: Module = module {
 /** Network Module */
 
 val networkModule: Module = module {
-
-    //Services
-
-    single { get<Retrofit>().create(UserService::class.java) }
-    single { get<Retrofit>().create(PhotoService::class.java) }
 
     //HTTP Client
 

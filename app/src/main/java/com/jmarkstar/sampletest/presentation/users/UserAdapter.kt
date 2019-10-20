@@ -7,8 +7,7 @@ import com.jmarkstar.sampletest.databinding.FragmentUsersItemBinding
 import com.jmarkstar.sampletest.models.User
 import com.jmarkstar.sampletest.presentation.common.BindableAdapter
 
-class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>(),
-    BindableAdapter<User> {
+class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>(), BindableAdapter<User> {
 
     var items = emptyList<User>()
     var onItemClick: ((User) -> (Unit))? = null

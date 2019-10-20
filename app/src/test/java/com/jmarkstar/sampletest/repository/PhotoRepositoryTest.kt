@@ -1,5 +1,8 @@
 package com.jmarkstar.sampletest.repository
 
+import android.os.Build
+import androidx.test.core.app.ApplicationProvider
+import com.jmarkstar.sampletest.di.*
 import com.jmarkstar.sampletest.incompletePhotoIds
 import com.jmarkstar.sampletest.photoIds
 import com.jmarkstar.sampletest.photos
@@ -11,23 +14,42 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*
 import com.jmarkstar.sampletest.models.Photo
+import org.junit.After
+import org.junit.runner.RunWith
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.dsl.module
+import org.koin.test.inject
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 import java.net.UnknownHostException
 
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [Build.VERSION_CODES.O_MR1])
 class PhotoRepositoryTest: BaseRepositoryTest() {
 
     private val photoService: PhotoService = mock(PhotoService::class.java)
 
     private val photoDao: PhotoDao = mock(PhotoDao::class.java)
 
-    private lateinit var photoRepository: PhotoRepository
+    private val photoRepository: PhotoRepository by inject()
 
-    @Before
-    fun setup() {
-        photoRepository = PhotoRepositoryImpl(photoService, photoDao)
+    @Before fun setup() {
+        startKoin {
+            androidContext(ApplicationProvider.getApplicationContext())
+            modules(listOf(commonModule, networkModule, databaseTestModule, constantModule, repositoryModule, module {
+                single { photoService }
+                single { photoDao }
+            }))
+        }
     }
 
-    @Test
-    fun `refresh photos Test success`() = runBlocking {
+    @After fun unsetup() {
+        stopKoin()
+    }
+
+    @Test fun `refresh photos Test success`() = runBlocking {
 
         `when`(photoDao.count())
             .thenReturn(0)
@@ -55,8 +77,7 @@ class PhotoRepositoryTest: BaseRepositoryTest() {
         }
     }
 
-    @Test
-    fun `refresh photos Test database operation failure`() = runBlocking {
+    @Test fun `refresh photos Test database operation failure`() = runBlocking {
 
         `when`(photoDao.count())
             .thenReturn(0)
@@ -84,8 +105,7 @@ class PhotoRepositoryTest: BaseRepositoryTest() {
         }
     }
 
-    @Test
-    fun `refresh users Test null body failure`() = runBlocking {
+    @Test fun `refresh users Test null body failure`() = runBlocking {
 
         `when`(photoDao.count())
             .thenReturn(0)
@@ -110,8 +130,7 @@ class PhotoRepositoryTest: BaseRepositoryTest() {
         }
     }
 
-    @Test
-    fun `get photos Test success`() = runBlocking {
+    @Test fun `get photos Test success`() = runBlocking {
 
         val photosFiltered = photos.filter { it.albumId == user1.id }
 
@@ -131,8 +150,7 @@ class PhotoRepositoryTest: BaseRepositoryTest() {
         }
     }
 
-    @Test
-    fun `get photos failure internal server error test`() = runBlocking {
+    @Test fun `get photos failure internal server error test`() = runBlocking {
 
         val response = mockResponse<List<Photo>>()
 
@@ -157,8 +175,7 @@ class PhotoRepositoryTest: BaseRepositoryTest() {
         }
     }
 
-    @Test
-    fun `get photos failure server not found test`() = runBlocking {
+    @Test fun `get photos failure server not found test`() = runBlocking {
 
         `when`(photoDao.count())
             .thenReturn(0)

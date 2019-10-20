@@ -23,7 +23,7 @@ class UsersFragment : BaseFragment() {
         binding.lifecycleOwner = this
 
         val adapter = UserAdapter()
-        adapter.onItemClick = {user ->
+        adapter.onItemClick = { user ->
 
             usersViewModel.select(user)
             findNavController().navigate(R.id.action_usersFragment_to_photosFragment)

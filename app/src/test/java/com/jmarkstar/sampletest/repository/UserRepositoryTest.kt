@@ -1,5 +1,8 @@
 package com.jmarkstar.sampletest.repository
 
+import android.os.Build
+import androidx.test.core.app.ApplicationProvider
+import com.jmarkstar.sampletest.di.*
 import com.jmarkstar.sampletest.incompleteUserIds
 import com.jmarkstar.sampletest.repository.local.daos.UserDao
 import com.jmarkstar.sampletest.repository.network.UserService
@@ -10,20 +13,40 @@ import org.junit.Test
 import org.mockito.Mockito.*
 import com.jmarkstar.sampletest.models.User
 import com.jmarkstar.sampletest.userIds
+import org.junit.After
+import org.junit.runner.RunWith
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.dsl.module
+import org.koin.test.inject
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [Build.VERSION_CODES.O_MR1])
 class UserRepositoryTest: BaseRepositoryTest() {
 
     private val userService: UserService = mock(UserService::class.java)
 
     private val userDao: UserDao = mock(UserDao::class.java)
 
-    private lateinit var userRepository: UserRepository
+    private val userRepository: UserRepository by inject()
 
-    @Before
-    fun setup() {
-        userRepository = UserRepositoryImpl(userService, userDao)
+    @Before fun setup() {
+        startKoin {
+            androidContext(ApplicationProvider.getApplicationContext())
+            modules(listOf(commonModule, networkModule, databaseTestModule, constantModule, repositoryModule, module {
+                single { userService }
+                single { userDao }
+            }))
+        }
+    }
+
+    @After fun unsetup() {
+        stopKoin()
     }
 
     @Test

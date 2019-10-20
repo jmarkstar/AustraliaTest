@@ -20,6 +20,7 @@ class SampleTestApplication: Application() {
                 networkModule,
                 databaseModule,
                 daoModule,
+                serviceModule,
                 repositoryModule,
                 viewModelModule,
                 constantModule))

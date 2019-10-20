@@ -10,12 +10,10 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*
-import retrofit2.Response
 import com.jmarkstar.sampletest.models.Photo
-import okhttp3.ResponseBody
 import java.net.UnknownHostException
 
-class PhotoRepositoryTest {
+class PhotoRepositoryTest: BaseRepositoryTest() {
 
     private val photoService: PhotoService = mock(PhotoService::class.java)
 
@@ -34,8 +32,15 @@ class PhotoRepositoryTest {
         `when`(photoDao.count())
             .thenReturn(0)
 
+        val response = mockResponse<List<Photo>>()
+
+        `when`(response.code())
+            .thenReturn(200)
+        `when`(response.body())
+            .thenReturn(photos)
+
         `when`(photoService.getPhotos())
-            .thenReturn(Response.success(200, photos))
+            .thenReturn(response)
 
         `when`(photoDao.insertAll(photos))
             .thenReturn(photoIds)
@@ -56,8 +61,15 @@ class PhotoRepositoryTest {
         `when`(photoDao.count())
             .thenReturn(0)
 
+        val response = mockResponse<List<Photo>>()
+
+        `when`(response.code())
+            .thenReturn(200)
+        `when`(response.body())
+            .thenReturn(photos)
+
         `when`(photoService.getPhotos())
-            .thenReturn(Response.success(200, photos))
+            .thenReturn(response)
 
         `when`(photoDao.insertAll(photos))
             .thenReturn(incompletePhotoIds)
@@ -78,8 +90,15 @@ class PhotoRepositoryTest {
         `when`(photoDao.count())
             .thenReturn(0)
 
+        val response = mockResponse<List<Photo>>()
+
+        `when`(response.code())
+            .thenReturn(200)
+        `when`(response.body())
+            .thenReturn(null)
+
         `when`(photoService.getPhotos())
-            .thenReturn(Response.success<List<Photo>>(200, null))
+            .thenReturn(response)
 
         val result = photoRepository.getUserPhotos(user1)
 
@@ -115,13 +134,18 @@ class PhotoRepositoryTest {
     @Test
     fun `get photos failure internal server error test`() = runBlocking {
 
-        val getUsersResponse = Response.error<List<Photo>>(500, ResponseBody.create(null, ""))
+        val response = mockResponse<List<Photo>>()
+
+        `when`(response.code())
+            .thenReturn(500)
+        `when`(response.body())
+            .thenReturn(null)
 
         `when`(photoDao.count())
             .thenReturn(0)
 
         `when`(photoService.getPhotos())
-            .thenReturn(getUsersResponse)
+            .thenReturn(response)
 
         val result = photoRepository.getUserPhotos(user1)
 

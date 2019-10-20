@@ -8,14 +8,12 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*
-import retrofit2.Response
 import com.jmarkstar.sampletest.models.User
 import com.jmarkstar.sampletest.userIds
-import okhttp3.ResponseBody
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
-class UserRepositoryTest {
+class UserRepositoryTest: BaseRepositoryTest() {
 
     private val userService: UserService = mock(UserService::class.java)
 
@@ -34,8 +32,16 @@ class UserRepositoryTest {
         `when`(userDao.count())
             .thenReturn(0)
 
+        val response = mockResponse<List<User>>()
+
+        `when`(response.code())
+            .thenReturn(200)
+
+        `when`(response.body())
+            .thenReturn(users)
+
         `when`(userService.getUsers())
-            .thenReturn(Response.success(200, users.toList()))
+            .thenReturn(response)
 
         `when`(userDao.insertAll(users))
             .thenReturn(userIds)
@@ -56,8 +62,16 @@ class UserRepositoryTest {
         `when`(userDao.count())
             .thenReturn(0)
 
+        val response = mockResponse<List<User>>()
+
+        `when`(response.code())
+            .thenReturn(200)
+
+        `when`(response.body())
+            .thenReturn(users)
+
         `when`(userService.getUsers())
-            .thenReturn(Response.success(200, users))
+            .thenReturn(response)
 
         `when`(userDao.insertAll(users))
             .thenReturn(incompleteUserIds)
@@ -78,8 +92,16 @@ class UserRepositoryTest {
         `when`(userDao.count())
             .thenReturn(0)
 
+        val response = mockResponse<List<User>>()
+
+        `when`(response.code())
+            .thenReturn(200)
+
+        `when`(response.body())
+            .thenReturn(null)
+
         `when`(userService.getUsers())
-            .thenReturn(Response.success<List<User>>(200, null))
+            .thenReturn(response)
 
         val result = userRepository.getUsers(true)
 
@@ -113,10 +135,16 @@ class UserRepositoryTest {
     @Test
     fun `get users failure internal server error test`() = runBlocking {
 
-        val getUsersResponse = Response.error<List<User>>(500, ResponseBody.create(null, ""))
+        val response = mockResponse<List<User>>()
+
+        `when`(response.code())
+            .thenReturn(500)
+
+        `when`(response.body())
+            .thenReturn(null)
 
         `when`(userService.getUsers())
-            .thenReturn(getUsersResponse)
+            .thenReturn(response)
 
         val result = userRepository.getUsers(true)
 

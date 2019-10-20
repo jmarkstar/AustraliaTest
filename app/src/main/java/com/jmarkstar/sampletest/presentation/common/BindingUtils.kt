@@ -1,4 +1,4 @@
-package com.jmarkstar.sampletest.presentation.base
+package com.jmarkstar.sampletest.presentation.common
 
 import android.graphics.drawable.Drawable
 import android.view.View

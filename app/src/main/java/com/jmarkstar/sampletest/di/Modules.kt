@@ -2,6 +2,7 @@ package com.jmarkstar.sampletest.di
 
 import androidx.room.Room
 import com.jmarkstar.sampletest.BuildConfig
+import com.jmarkstar.sampletest.presentation.common.CoroutineContextProvider
 import com.jmarkstar.sampletest.presentation.photos.PhotosViewModel
 import com.jmarkstar.sampletest.presentation.users.UsersViewModel
 import com.jmarkstar.sampletest.repository.PhotoRepository
@@ -33,8 +34,9 @@ val constantModule: Module = module {
 
 val viewModelModule: Module = module {
 
-    viewModel { UsersViewModel( userRepository = get()) }
-    viewModel { PhotosViewModel( photoRepository = get()) }
+    single { CoroutineContextProvider() }
+    viewModel { UsersViewModel( userRepository = get(), coroutineContextProvider = get()) }
+    viewModel { PhotosViewModel( photoRepository = get(), coroutineContextProvider = get()) }
 }
 
 /** Repository Module */

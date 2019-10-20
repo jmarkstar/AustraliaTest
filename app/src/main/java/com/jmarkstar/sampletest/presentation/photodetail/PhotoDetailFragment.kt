@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jmarkstar.sampletest.databinding.FragmentPhotoDetailBinding
-import com.jmarkstar.sampletest.presentation.base.BaseFragment
+import com.jmarkstar.sampletest.presentation.common.BaseFragment
 import com.jmarkstar.sampletest.presentation.photos.PhotosViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 

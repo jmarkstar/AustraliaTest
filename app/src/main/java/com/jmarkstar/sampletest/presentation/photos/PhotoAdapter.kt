@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jmarkstar.sampletest.databinding.FragmentPhotosItemBinding
 import com.jmarkstar.sampletest.models.Photo
-import com.jmarkstar.sampletest.presentation.base.BindableAdapter
+import com.jmarkstar.sampletest.presentation.common.BindableAdapter
 
 class PhotoAdapter: RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder>(),
     BindableAdapter<Photo> {

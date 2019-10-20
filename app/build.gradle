@@ -62,9 +62,8 @@ dependencies {
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
     implementation "org.koin:koin-androidx-ext:$koin_version"
 
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
 
     //Database
     implementation "androidx.room:room-runtime:$room_version"
@@ -88,6 +87,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation "org.robolectric:robolectric:$robolectric_version"
     testImplementation "androidx.test:core:$testcore_version"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
     testImplementation "org.koin:koin-test:$koin_version"
     testImplementation "org.mockito:mockito-core:$mockito_version"
 

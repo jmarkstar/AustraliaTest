@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jmarkstar.sampletest.databinding.FragmentUsersItemBinding
 import com.jmarkstar.sampletest.models.User
-import com.jmarkstar.sampletest.presentation.base.BindableAdapter
+import com.jmarkstar.sampletest.presentation.common.BindableAdapter
 
 class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>(),
     BindableAdapter<User> {

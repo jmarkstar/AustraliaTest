@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.jmarkstar.sampletest.R
 import com.jmarkstar.sampletest.databinding.FragmentPhotosBinding
-import com.jmarkstar.sampletest.presentation.base.BaseFragment
+import com.jmarkstar.sampletest.presentation.common.BaseFragment
 import com.jmarkstar.sampletest.presentation.users.UsersViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 

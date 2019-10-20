@@ -2,14 +2,16 @@ package com.jmarkstar.sampletest.presentation.users
 
 import androidx.lifecycle.*
 import com.jmarkstar.sampletest.models.User
+import com.jmarkstar.sampletest.presentation.common.BaseViewModel
+import com.jmarkstar.sampletest.presentation.common.CoroutineContextProvider
 import com.jmarkstar.sampletest.repository.FailureReason
 import com.jmarkstar.sampletest.repository.UserRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.jmarkstar.sampletest.repository.Result
 
-class UsersViewModel constructor(private val userRepository: UserRepository): ViewModel() {
+class UsersViewModel constructor(private val userRepository: UserRepository,
+                                 coroutineContextProvider: CoroutineContextProvider): BaseViewModel(coroutineContextProvider) {
 
     private var _users = MutableLiveData<List<User>>()
     private var _isLoading = MutableLiveData<Boolean>()
@@ -23,14 +25,14 @@ class UsersViewModel constructor(private val userRepository: UserRepository): Vi
     val selectedUser: LiveData<User> = _selectedUser
 
     init {
-        getUsers()
+        //getUsers()
     }
 
-    private fun getUsers(refresh: Boolean = false) = viewModelScope.launch {
+    fun getUsers(refresh: Boolean = false) = launch {
 
         _isLoading.value = true
 
-        withContext(Dispatchers.Default) {
+        withContext(coroutineContextProvider.Default) {
 
             when( val result = userRepository.getUsers(refresh)) {
 
@@ -46,11 +48,11 @@ class UsersViewModel constructor(private val userRepository: UserRepository): Vi
         _isLoading.value = false
     }
 
-    private suspend fun setUsers(items: List<User>) = withContext(Dispatchers.Main){
+    private suspend fun setUsers(items: List<User>) = withContext(coroutineContextProvider.Main){
         _users.value = items
     }
 
-    private suspend fun setError(reason: FailureReason) = withContext(Dispatchers.Main){
+    private suspend fun setError(reason: FailureReason) = withContext(coroutineContextProvider.Main){
         _error.value = reason
     }
 

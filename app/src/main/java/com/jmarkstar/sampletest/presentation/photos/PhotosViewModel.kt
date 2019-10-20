@@ -3,14 +3,16 @@ package com.jmarkstar.sampletest.presentation.photos
 import androidx.lifecycle.*
 import com.jmarkstar.sampletest.models.Photo
 import com.jmarkstar.sampletest.models.User
+import com.jmarkstar.sampletest.presentation.common.BaseViewModel
+import com.jmarkstar.sampletest.presentation.common.CoroutineContextProvider
 import com.jmarkstar.sampletest.repository.FailureReason
 import com.jmarkstar.sampletest.repository.PhotoRepository
 import com.jmarkstar.sampletest.repository.Result
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class PhotosViewModel constructor(private val photoRepository: PhotoRepository): ViewModel() {
+class PhotosViewModel constructor(private val photoRepository: PhotoRepository,
+                                  coroutineContextProvider: CoroutineContextProvider): BaseViewModel(coroutineContextProvider) {
 
     private var _photos = MutableLiveData<List<Photo>>()
     private var _isLoading = MutableLiveData<Boolean>()
@@ -24,11 +26,11 @@ class PhotosViewModel constructor(private val photoRepository: PhotoRepository):
 
     val selectedPhoto: LiveData<Photo> = _selectedPhoto
 
-    fun getPhotos(selectedUser: User, refresh: Boolean = false) = viewModelScope.launch {
+    fun getPhotos(selectedUser: User, refresh: Boolean = false) = launch {
 
         _isLoading.value = true
 
-        withContext(Dispatchers.Default) {
+        withContext(coroutineContextProvider.Default) {
 
             when( val result = photoRepository.getUserPhotos(selectedUser, refresh)) {
 
@@ -44,11 +46,11 @@ class PhotosViewModel constructor(private val photoRepository: PhotoRepository):
         _isLoading.value = false
     }
 
-    private suspend fun setPhotos(items: List<Photo>) = withContext(Dispatchers.Main){
+    private suspend fun setPhotos(items: List<Photo>) = withContext(coroutineContextProvider.Main){
         _photos.value = items
     }
 
-    private suspend fun setError(reason: FailureReason) = withContext(Dispatchers.Main){
+    private suspend fun setError(reason: FailureReason) = withContext(coroutineContextProvider.Main){
         _error.value = reason
     }
 

@@ -25,7 +25,7 @@ class UsersViewModel constructor(private val userRepository: UserRepository,
     val selectedUser: LiveData<User> = _selectedUser
 
     init {
-        //getUsers()
+        getUsers()
     }
 
     fun getUsers(refresh: Boolean = false) = launch {

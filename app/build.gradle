@@ -90,6 +90,7 @@ dependencies {
     testImplementation "androidx.arch.core:core-testing:2.1.0"
     testImplementation "org.koin:koin-test:$koin_version"
     testImplementation "org.mockito:mockito-core:$mockito_version"
+    testImplementation 'com.jraska.livedata:testing-ktx:1.1.0'
 
     androidTestImplementation "androidx.test:runner:$testRunner_version"
     androidTestImplementation "org.koin:koin-test:$koin_version"
